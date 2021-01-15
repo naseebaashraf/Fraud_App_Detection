@@ -1,0 +1,31 @@
+ {% extends 'myapp/admin_base.html'%}
+    {% block title %} {% endblock %}
+    {% block body %}
+
+<center>
+    <h2>CATEGORY DETAILS</h2>
+    <div class="container">
+    <form name="frm">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>CATEGORY NAME</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cd in cat_list %}
+            <tr>
+                <td>{{cd.id}}</td>
+                <td>{{cd.category_name}}</td>
+                <td><a href="../admin_delete_category?id={{cd.id}}">DELETE</a></td>
+            </tr>
+            {% endfor%}
+            </tbody>
+                <td><a href="../admin_add_category?id={{cd.id}}">ADD CATEGORY</a></td>
+        </table>
+    </form>
+    </div>
+
+</center>
+  {% endblock %}
