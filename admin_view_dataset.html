@@ -1,0 +1,31 @@
+{% extends 'myapp/admin_base.html'%}
+    {% block title %} {% endblock %}
+    {% block body %}
+
+<center>
+    <h2>DATA SET DETAILS</h2>
+    <div class="container">
+    <form name="frm">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Sentiment Type</th>
+                <th>Data Keys</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for dd in data_list %}
+            <tr>
+                <td>{{dd.sentiment_type}}</td>
+                <td>{{dd.data_keys}}</td>
+                <td><a href="../admin_delete_dataset?id={{dd.id}}">DELETE</a></td>
+            </tr>
+            {% endfor%}
+            </tbody>
+                <td><a href="../admin_add_dataset?id={{cd.id}}">ADD DATASET</a></td>
+        </table>
+    </form>
+    </div>
+
+</center>
+  {% endblock %}

@@ -60,6 +60,17 @@ def admin_logout(request):
         return admin_login(request)
 
 
+def admin_view_users(request):
+    user_list = user_login.objects.filter(utype='user')
+    context= {'user_list':user_list}
+    return render(request,'./myapp/admin_view_users.html',context)
+
+def admin_view_company(request):
+    company_list = user_login.objects.filter(utype='company')
+    context= {'company_list':company_list}
+    return render(request,'./myapp/admin_view_company.html',context)
+
+
 from .models import category_master
 
 def admin_add_category(request):
@@ -100,10 +111,26 @@ def admin_add_dataset(request):
 
         data_list = data_set(sentiment_type=sentiment_type, data_keys=data_keys)
         data_list.save()
-        context={'msg':'Data Set Added Successfully'}
-        return render(request,'./myapp/admin_add_dataset.html',context)
+        context = {'msg': 'Data Set Added Successfully'}
+        return render(request, './myapp/admin_add_dataset.html', context)
     else:
-        return render(request,'./myapp/admin_add_dataset.html')
+        return render(request, './myapp/admin_add_dataset.html')
+
+def admin_view_dataset(request):
+        data_list = data_set.objects.all()
+        msg = ''
+        context = {'msg': msg, 'data_list': data_list}
+        return render(request, './myapp/admin_view_dataset.html', context)
+
+def admin_delete_dataset(request):
+    id = request.GET.get('id')
+    dd = data_set.objects.get(id=int(id))
+    dd.delete()
+
+    msg = 'deleted'
+    data_list = data_set.objects.all()
+    context = {'msg': msg, 'data_list': data_list}
+    return render(request, './myapp/admin_view_dataset.html', context)
 
 #########################################################
 
@@ -161,21 +188,141 @@ def company_logout(request):
     except:
         return company_login(request)
 
+
+from datetime import datetime
+from django.db.models import Max
+from .models import company_details
+from django.core.files.storage import FileSystemStorage
 def company_registration(request):
     if request.method == 'POST':
-        uname = request.POST.get('uname')
-        passwd = request.POST.get('passwd')
-        utype='company'
-        #insert query
-        user1=user_login(uname=uname,passwd=passwd,utype=utype)
-        user1.save()
-        context={'msg':'company registered successfully'}
-        return render(request,'./myapp/company_login.html',context)
+        u_file = request.FILES['logo']
+        fs = FileSystemStorage()
+        c_logo = fs.save(u_file.name, u_file)
+        #user_id = request.POST.get('user_id')
+        c_name = request.POST.get('c_name')
+        c_descp = request.POST.get('c_descp')
+        c_addr1 = request.POST.get('c_addr1')
+        c_addr2 = request.POST.get('c_addr2')
+        c_addr3 = request.POST.get('c_addr3')
+        c_pincode = request.POST.get('c_pincode')
+        c_email = request.POST.get('c_email')
+        c_contact1 = request.POST.get('c_contact1')
+        c_contact2 = request.POST.get('c_contact2')
+        c_url = request.POST.get('c_url')
+        c_dt = datetime.today().strftime('%Y-%m-%d')
+        c_tm = datetime.today().strftime('%H:%M:%S')
+        c_status = "new"
+        password='1234'
+
+
+        ul = user_login(uname=c_email, passwd=password, utype='company')
+        ul.save()
+        user_id = user_login.objects.all().aggregate(Max('id'))['id__max']
+
+        ud = company_details(user_id=user_id, c_name=c_name, c_descp=c_descp, c_addr1=c_addr1, c_addr2=c_addr2, c_addr3=c_addr3, c_pincode=c_pincode, c_email=c_email,
+                          c_contact1=c_contact1, c_contact2=c_contact2, c_url=c_url, c_dt=c_dt, c_tm=c_tm, c_status=c_status,c_logo=c_logo)
+        ud.save()
+
+        print(user_id)
+        context={'msg':'Company Registered'}
+        return render(request, 'myapp/company_login.html', context)
+
     else:
-        return render(request,'./myapp/company_registration.html')
+        return render(request, 'myapp/company_registration.html')
 
 
+#######################################################
 
+from .models import user_login
+def user_login2(request):
+      if request.method == 'POST':
+        uname=request.POST.get('uname')
+        password = request.POST.get('password')
+        # select query
+        user_list = user_login.objects.filter(uname=uname, passwd=password, utype='user')
+
+        if len(user_list) == 1:
+            #setting session
+            request.session['user_name'] = user_list[0].uname
+            request.session['user_id'] = user_list[0].id
+            context = {'uname': user_list[0].uname.upper()}
+            return render(request,'./myapp/user_home.html')
+        else:
+            context = {'msg':'Invalid Credentials'}
+            return render(request,'./myapp/user_login.html',context)
+      else:
+        return render(request,'./myapp/user_login.html')
+
+def user_home(request):
+    context = {'uname': 'user'}
+    return render(request,'./myapp/user_home.html')
+
+
+from datetime import datetime
+from django.db.models import Max
+from .models import user_details
+def user_registration(request):
+    if request.method == 'POST':
+
+        #user_id = request.POST.get('user_id')
+        f_name = request.POST.get('f_name')
+        l_name = request.POST.get('l_name')
+        dob = request.POST.get('dob')
+        gender = request.POST.get('gender')
+        addr = request.POST.get('addr')
+        pincode = request.POST.get('pincode')
+        email = request.POST.get('email')
+        contact = request.POST.get('contact')
+        dt = datetime.today().strftime('%Y-%m-%d')
+        tm = datetime.today().strftime('%H:%M:%S')
+        status = "new"
+        password='1234'
+
+
+        ul = user_login(uname=email, passwd=password, utype='user')
+        ul.save()
+        user_id = user_login.objects.all().aggregate(Max('id'))['id__max']
+
+        ud = user_details(f_name=f_name, l_name=l_name,dob=dob, gender=gender, addr=addr, pincode=pincode, email=email,
+                          contact=contact,  dt=dt, tm=tm, status=status)
+        ud.save()
+
+        print(user_id)
+        context={'msg':'User Registered'}
+        return render(request, 'myapp/user_login.html', context)
+
+    else:
+        return render(request, 'myapp/user_registration.html')
+
+def user_change_password(request):
+    if request.method == 'POST':
+        opasswd=request.POST.get('opswd')
+        npasswd=request.POST.get('npswd')
+        try:
+            uname = request.session['user_name'] #reading session
+        except:
+            return render(request, './myapp/user_login.html')
+        try:
+            user1 = user_login.objects.get(uname=uname, passwd=opasswd, utype='user')
+            #update query
+            user1.passwd = npasswd
+            user1.save()
+            context = {'msg': 'password changed'}
+            return render(request, './myapp/user_change_password.html', context)
+        except user_login.DoesNotExist:
+            context = {'msg': 'invalid old password'}
+            return render(request, './myapp/user_change_password.html', context)
+    else:
+         return render(request, './myapp/user_change_password.html')
+
+def user_logout(request):
+    try:
+        del request.session['user_name']
+        del request.session['user_id']
+        return user_login(request)
+    #except works if no session is setted
+    except:
+        return user_login(request)
 
 
 

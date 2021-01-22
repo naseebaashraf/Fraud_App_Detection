@@ -1,12 +1,12 @@
-{% extends 'myapp/company_base.html'%}
-    {% block title %}COMPANY LOGIN{% endblock %}
+{% extends 'myapp/user_base.html'%}
+    {% block title %}USER LOGIN{% endblock %}
     {% block body %}
 
 <center>
-    <h2>COMPANY LOGIN</h2>
+    <h2>USER LOGIN</h2>
     <div class="container">
         {{msg}}
-        <form role="form" name="frm" action="{%url 'company_login'%}" method="POST">
+        <form role="form" name="frm" action="{%url 'user_login'%}" method="POST">
             {% csrf_token %}
             <div class="form-group">
                 <label for="uname">username</label>
@@ -19,7 +19,7 @@
             <button type="submit" class="'btn btn-info" id="bt" name="bt">Login</button>
         </form>
          <br><br>
-        <a href="{%url 'company_registration'%}" class="btn btn-success" role="button">New user</a>
+        <a href="{%url 'user_registration'%}" class="btn btn-success" role="button">New user</a>
     </div>
 
 </center>

@@ -9,20 +9,15 @@
         <form role="form" name="frm" action="{% url 'admin_add_dataset' %}" method="post">
             {% csrf_token %}
 
-            <div class="dropdown">
-             <button class="btn btn-secondary dropdown-toggle"  type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                 Sentiment Type
-             </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">POSITIVE</a></li>
-                    <li><a class="dropdown-item" href="#">NEGATIVE</a></li>
-                    <li><a class="dropdown-item" href="#">NEUTRAL</a></li>
-                </ul>
-            </div>
+            <select name="sentiment_type" class="form-control" >
+                <option value="positive">POSITIVE</option>
+                 <option value="negative">NEGATIVE</option>
+                 <option value="neutral">NEUTRAL</option>
+            </select>
 
             <div class="form-group">
                 <label for="data_keys">Data Keys</label>
-                <input type="text" class="form-control" name="data_Keys" id="data_keys" required>
+                <input type="text" class="form-control" name="data_keys" id="data_keys" required>
             </div>
 
             <button type="submit" class="btn btn-info" name="btn1" id="btn">Add Now </button>
