@@ -1,0 +1,48 @@
+{% extends 'myapp/user_base.html' %}
+{% load static %}
+{% block title %}Companies list {% endblock %}
+
+{%block body%}
+ <center>
+    <h2>Companies Details</h2>
+     <div class="container">
+     <form name="frm">
+         <table class="table auto-index">
+             <thead class="thead-dark">
+                <tr>
+                    <th>Sl NO</th>
+                    <th>NAME</th>
+                    <th>PASSWORD</th>
+                </tr>
+
+             </thead>
+             <tbody>
+                {% for cv in company_view %}
+                    <tr>
+                        <td></td> <!--here we get the id starting from 1 coz it is mentioned in style tag-->
+                        <td>{{cv.uname}}</td>
+                        <td>{{cv.passwd}}</td>
+                    </tr>
+                {% endfor %}
+             </tbody>
+
+         </table>
+     </form>
+     </div>
+ </center>
+<style>
+
+form
+{
+ counter-reset:Serial;
+}
+    table
+    {
+    }
+    .auto-index td:first-child:before
+    {
+     counter-increment:Serial; /* increment the serial counter*/
+     content:counter(Serial); /* display the counter*/
+    }
+</style>
+{%  endblock %}

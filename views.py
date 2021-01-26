@@ -102,6 +102,52 @@ def admin_delete_category(request):
     context = {'msg': msg, 'cat_list': cat_list}
     return render(request, './myapp/admin_view_category.html', context)
 
+from .models import sub_category_master
+def admin_add_sub_category(request):
+    if request.method == 'POST':
+        sub_category_name =request.POST.get('sub_category_name')
+        category_master_id = int(request.POST.get('category_master_id'))
+
+        sub_list = sub_category_master(sub_category_name=sub_category_name,category_master_id=category_master_id)
+        sub_list.save()
+        context = {'msg': 'Sub Category Added Successfully'}
+        cat_list = category_master.objects.all()
+        context = {'node_list': cat_list}
+        return render(request, 'myapp/admin_add_sub_category.html',context)
+
+    else:
+        cat_list = category_master.objects.all()
+        context = {'node_list': cat_list}
+        return render(request, 'myapp/admin_add_sub_category.html',context)
+
+def admin_delete_sub_category(request):
+    id = request.GET.get('id')
+    print("id="+id)
+
+    nm = sub_category_master.objects.get(id=int(id))
+    nm.delete()
+
+    msg = 'deleted'
+    cm_l = category_master.objects.all()
+    cmd = {}
+    for cm in cm_l:
+        cmd[cm.id] = cm.category_name
+
+    st_l = sub_category_master.objects.all()
+    context ={'subcategory_list':st_l,'category_list':cmd}
+    return render(request,'myapp/admin_view_sub_category.html',context)
+
+def admin_view_sub_category(request):
+    cat_list = category_master.objects.all()
+    cmd = {}
+    for cd in cat_list:
+        cmd[cd.id] = cd.category_name
+
+    sub_list = sub_category_master.objects.all()
+    context = {'sub_list':  sub_list, 'category_list': cmd}
+    return render(request, 'myapp/admin_view_sub_category.html', context)
+
+
 from .models import data_set
 
 def admin_add_dataset(request):
@@ -319,10 +365,17 @@ def user_logout(request):
     try:
         del request.session['user_name']
         del request.session['user_id']
-        return user_login(request)
+        return user_login2(request)
     #except works if no session is setted
     except:
-        return user_login(request)
+        return user_login2(request)
+
+def user_view_company(request):
+    company_view = user_login.objects.filter(utype='company')
+    context= {'company_view':company_view}
+    return render(request,'./myapp/user_view_company.html',context)
+
+
 
 
 
