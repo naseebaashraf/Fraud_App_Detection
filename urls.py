@@ -41,11 +41,17 @@ urlpatterns = [
     path('admin_view_dataset', views.admin_view_dataset, name='admin_view_dataset'),
     path('admin_delete_dataset', views.admin_delete_dataset, name='admin_delete_dataset'),
 
+    path('admin_view_app', views.admin_view_app, name='admin_view_app'),
+
     path('company_login', views.company_login, name='company_login'),
     path('company_home', views.company_home, name='company_home'),
     path('company_change_password', views.company_change_password, name='company_change_password'),
     path('company_logout', views.company_logout, name='company_logout'),
     path('company_registration', views.company_registration, name='company_registration'),
+
+    path('company_add_app', views.company_add_app, name='company_add_app'),
+    path('company_view_app', views.company_view_app, name='company_view_app'),
+    path('company_delete_app', views.company_delete_app, name='company_delete_app'),
 
     path('user_login', views.user_login2, name='user_login'),
     path('user_home', views.user_home, name='user_home'),
@@ -54,5 +60,6 @@ urlpatterns = [
     path('user_logout', views.user_logout, name='user_logout'),
 
     path('user_view_company', views.user_view_company, name='user_view_company'),
+    path('user_view_app', views.user_view_app, name='user_view_app'),
 
 ]

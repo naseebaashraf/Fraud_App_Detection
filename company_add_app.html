@@ -1,0 +1,56 @@
+{% extends 'myapp/company_base.html' %}
+{% load static %}
+{% block title %}Add  App{% endblock %}
+
+{% block body %}
+<center><h1>Add App</h1>
+    {{msg}}
+    <div class="container">
+        <form role="form" name="frm" action="{% url 'company_add_app' %}" method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="app_name">App name</label>
+                <input type="text" class="form-control" name="app_name" id="app_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="comapny_details_id">Company Details Id</label>
+                <input type="number" class="form-control" name="comapny_details_id" id="comapny_details_id" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sub_category_master_id">Sub Category Master Id</label>
+                <input type="number" class="form-control" name="sub_category_master_id" id="sub_category_master_id" required>
+            </div>
+
+            <div class="form-group">
+                <label for="product_descp">Product Description</label>
+                <input type="text" class="form-control" name="product_descp" id="product_descp" required>
+            </div>
+
+            <div class="form-group">
+                <label for="product_price">Product Price</label>
+                <input type="text" class="form-control" name="product_price" id="product_price" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dt">Date</label>
+                <input type="date" name="dt" id="dt" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="tm">Time</label>
+                <input type="time" name="tm" id="tm" class="form-control">
+            </div>
+
+
+            <button type="submit" class="btn btn-info" name="btn1" id="btn">Add Now </button>
+            <button type="reset" class="btn btn-info" name="btn2" id="btn2">Reset</button>
+        </form>
+
+    </div>
+
+</center>
+
+{% endblock %}

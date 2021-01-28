@@ -178,6 +178,13 @@ def admin_delete_dataset(request):
     context = {'msg': msg, 'data_list': data_list}
     return render(request, './myapp/admin_view_dataset.html', context)
 
+def admin_view_app(request):
+        app_list = app_master.objects.all()
+        msg = ''
+        context = {'msg': msg, 'app_list': app_list}
+        return render(request, './myapp/admin_view_app.html', context)
+
+
 #########################################################
 
 from .models import user_login
@@ -275,6 +282,49 @@ def company_registration(request):
 
     else:
         return render(request, 'myapp/company_registration.html')
+
+from .models import app_master
+def company_add_app(request):
+    if request.method == 'POST':
+
+        app_name = request.POST.get('app_name')
+        comapny_details_id = int(request.POST.get('comapny_details_id'))
+        sub_category_master_id = int(request.POST.get('sub_category_master_id'))
+        product_descp = request.POST.get('product_descp')
+        product_price = request.POST.get('product_price')
+        dt = datetime.today().strftime('%Y-%m-%d')
+        tm = datetime.today().strftime('%H:%M:%S')
+        status = "new"
+        password = '1234'
+
+        app_list = app_master(app_name=app_name, comapny_details_id=comapny_details_id, sub_category_master_id=sub_category_master_id, product_descp=product_descp,
+                              product_price=product_price, dt=dt, tm=tm, status=status)
+        app_list.save()
+        context = {'msg': 'App Added Successfully'}
+        app_list = app_master.objects.all()
+        context = {'app_list': app_list}
+        return render(request, 'myapp/company_add_app.html',context)
+
+    else:
+        app_list = app_master.objects.all()
+        context = {'app_list': app_list}
+        return render(request, 'myapp/company_add_app.html',context)
+
+def company_delete_app(request):
+    id = request.GET.get('id')
+    al = app_master.objects.get(id=int(id))
+    al.delete()
+
+    msg = 'deleted'
+    app_list = app_master.objects.all()
+    context = {'msg': msg, 'app_list': app_list}
+    return render(request, './myapp/company_view_app.html', context)
+
+def company_view_app(request):
+        app_list = app_master.objects.all()
+        msg = ''
+        context = {'msg': msg, 'app_list': app_list}
+        return render(request, './myapp/company_view_app.html', context)
 
 
 #######################################################
@@ -374,6 +424,12 @@ def user_view_company(request):
     company_view = user_login.objects.filter(utype='company')
     context= {'company_view':company_view}
     return render(request,'./myapp/user_view_company.html',context)
+
+def user_view_app(request):
+    app_list = app_master.objects.all()
+    msg = ''
+    context = {'msg': msg, 'app_list': app_list}
+    return render(request, './myapp/user_view_app.html', context)
 
 
 

@@ -48,7 +48,7 @@ class sub_category_master(models.Model):
 
 class app_master(models.Model):
     app_name = models.CharField(max_length=100)
-    comapny_details_id = models.IntegerField()
+    comapny_details_id = models.IntegerField() #spelling mistake
     sub_category_master_id = models.IntegerField()
     product_descp = models.CharField(max_length=1000)
     product_price = models.FloatField()

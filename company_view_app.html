@@ -1,0 +1,46 @@
+{% extends 'myapp/company_base.html'%}
+    {% block title %} {% endblock %}
+    {% block body %}
+
+<center>
+    <h2>APP DETAILS</h2>
+    <div class="container">
+    <form name="frm">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>APP NAME</th>
+                <th>COMPANY DETAILS ID</th>
+                <th>SUB CATEGORY MASTER ID</th>
+                <th>PRODUCT DESCRIPTION</th>
+                <th>PRODUCT PRICE</th>
+                <th>DATE</th>
+                <th>TIME</th>
+                <th>STATUS</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for al in app_list %}
+            <tr>
+                <td>{{al.id}}</td>
+                <td>{{al.app_name}}</td>
+                <td>{{al.comapny_details_id}}</td>
+                <td>{{al.sub_category_master_id}}</td>
+                <td>{{al.product_descp}}</td>
+                <td>{{al.product_price}}</td>
+                <td>{{al.dt}}</td>
+                <td>{{al.tm}}</td>
+                <td>{{al.status}}</td>
+         <td><a href="../company_delete_app?id={{al.id}}">DELETE</a></td>
+            </tr>
+            {% endfor%}
+            </tbody>
+                <td><a href="../company_add_app?id={{al.id}}">ADD APP</a></td>
+        </table>
+    </form>
+    </div>
+
+</center>
+  {% endblock %}
