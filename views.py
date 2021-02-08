@@ -185,7 +185,7 @@ def admin_view_app(request):
         return render(request, './myapp/admin_view_app.html', context)
 
 
-#########################################################
+########################## COMPANY ###############################
 
 from .models import user_login
 def company_login(request):
@@ -327,7 +327,7 @@ def company_view_app(request):
         return render(request, './myapp/company_view_app.html', context)
 
 
-#######################################################
+####################### USER ################################
 
 from .models import user_login
 def user_login2(request):
@@ -341,6 +341,7 @@ def user_login2(request):
             #setting session
             request.session['user_name'] = user_list[0].uname
             request.session['user_id'] = user_list[0].id
+            print ('user_id', request.session['user_id'])
             context = {'uname': user_list[0].uname.upper()}
             return render(request,'./myapp/user_home.html')
         else:
@@ -432,6 +433,42 @@ def user_view_app(request):
     return render(request, './myapp/user_view_app.html', context)
 
 
+from .models import app_review
+def user_add_app_reviews(request):
+    if request.method == "POST":
+        app_master_id = 1#int(request.POST.get('app_master_id'))
+        user_id = int(request.session['user_id'])
+        rating = int(request.POST.get('rating'))
+        review = request.POST.get('review')
+        dt = datetime.today().strftime('%Y-%m-%d')
+        tm = datetime.today().strftime('%H:%M:%S')
+        status = "ok"
 
+        ar = app_review(app_master_id=int(app_master_id), user_id=int(user_id), rating=int(rating), review=review,
+                             dt=dt, tm=tm, status=status)
+        ar.save()
+        context = {'msg': 'Review added', 'app_master_id': app_master_id}
+        return render(request, 'myapp/user_add_app_reviews.html', context)
+
+    else:
+        app_master_id = request.GET.get('app_master_id')
+        context = {'msg': '', 'app_master_id': app_master_id}
+        return render(request, 'myapp/user_add_app_reviews.html', context)
+
+def user_view_app_reviews(request):
+    review_list = app_review.objects.all()
+    msg = ''
+    context = {'msg': msg, 'review_list': review_list}
+    return render(request, './myapp/user_view_app_reviews.html', context)
+
+def user_delete_app_reviews(request):
+    id = request.GET.get('id')
+    ar = app_review.objects.get(id=int(id))
+    ar.delete()
+
+    msg = 'deleted'
+    review_list = app_review.objects.all()
+    context = {'msg': msg, 'review_list': review_list}
+    return render(request, './myapp/user_delete_app_reviews.html', context)
 
 

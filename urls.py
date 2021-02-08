@@ -62,4 +62,8 @@ urlpatterns = [
     path('user_view_company', views.user_view_company, name='user_view_company'),
     path('user_view_app', views.user_view_app, name='user_view_app'),
 
+    path('user_add_app_reviews', views.user_add_app_reviews, name='user_add_app_reviews'),
+    path('user_view_app_reviews', views.user_view_app_reviews, name='user_view_app_reviews'),
+    path('user_delete_app_reviews', views.user_delete_app_reviews, name='user_delete_app_reviews'),
+
 ]

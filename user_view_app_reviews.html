@@ -1,0 +1,42 @@
+{% extends 'myapp/user_base.html'%}
+    {% block title %} {% endblock %}
+    {% block body %}
+
+<center>
+    <h2>APP REVIEWS DETAILS</h2>
+    <div class="container">
+    <form name="frm">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>RATING</th>
+                <th>REVIEW</th>
+                <th>DATE</th>
+                <th>TIME</th>
+                <th>STATUS</th>
+                <th>ACTION</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for ar in review_list %}
+            <tr>
+                <td>{{ar.rating}}</td>
+                <td>{{ar.review}}</td>
+                <td>{{ar.dt}}</td>
+                <td>{{ar.tm}}</td>
+                <td>{{ar.status}}</td>
+
+                <td><a href="../user_delete_app_reviews?id={{ar.id}}">DELETE</a></td>
+            </tr>
+            {% endfor%}
+            </tbody>
+            <input type="hidden"  name="app_master_id" value="{{app_master_id}}" >
+            {{msg}}
+                   <td><a href="../user_add_app_reviews?id={{ar.id}}">ADD REVIEW</a></td>
+        </table>
+    </form>
+    </div>
+
+</center>
+{% endblock %}

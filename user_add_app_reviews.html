@@ -1,0 +1,41 @@
+{% extends 'myapp/user_base.html' %}
+{% load static %}
+{% block title %}ADD APP Reviews{% endblock %}
+
+{% block body %}
+<center><h1>Add App Reviews</h1>
+    {{msg}}
+    <div class="container">
+        <form role="form" name="frm" action="{% url 'user_add_app_reviews' %}" method="post">
+            {% csrf_token %}
+
+
+            <div class="form-group">
+                <label for="rating">RATING</label>
+                    <select class="form-control" id="rating"  name="rating">
+		                <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+		            </select>
+            </div>
+
+            <div class="form-group">
+            <label for="review">REVIEW</label>
+            <input class="form-control" type="text"  name="review" placeholder="Review" required="required" id="review">
+            </div>
+
+
+            <button type="submit" class="btn btn-info" name="btn1" id="btn">Add Now </button>
+            <button type="reset" class="btn btn-info" name="btn2" id="btn2">Reset</button>
+
+            <input type="hidden"  name="app_master_id" value="{{app_master_id}}" >
+        {{msg}}
+        </form>
+
+    </div>
+
+</center>
+
+{% endblock %}
