@@ -327,6 +327,26 @@ def company_view_app(request):
         return render(request, './myapp/company_view_app.html', context)
 
 
+from .models import app_pic
+from django.core.files.storage import FileSystemStorage
+
+def company_add_app_pic(request):
+    if request.method == 'POST':
+        u_file = request.FILES['document']
+        fs = FileSystemStorage()
+        pic_path = fs.save(u_file.name,u_file)
+        product_master_id = request.POST.get('product_master_id')
+
+        pp = app_pic(product_master_id=int(product_master_id), pic_path=pic_path)
+        pp.save()
+        context = {'msg': 'Picture Uploaded'}
+        return render(request, './myapp/company_add_app_pic.html', context)
+    else:
+        product_master_id = request.GET.get('product_master_id')
+        context = {'msg':'','product_master_id':product_master_id}
+        return render(request,'./myapp/company_add_app_pic.html',context)
+
+
 ####################### USER ################################
 
 from .models import user_login

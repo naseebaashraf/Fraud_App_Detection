@@ -1,0 +1,24 @@
+{% extends 'myapp/company_base.html' %}
+{% load static %}
+{% block title %}Add App pic{% endblock%}
+{% block body %}
+    <center>
+    <h3>Add App Pic</h3>
+    <div class="container">
+        {{msg}}
+        <form role="form" name="frm" action="{%url 'company_add_app_pic'%}" method="post"
+            enctype="multipart/form-data">
+
+
+            <div class="form-group">
+                <label for="document">App Pic</label>
+                <input type="file" name="document" id="document" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-info" id="bt1" name="bt1">Upload</button>
+            <button type="reset" class="btn btn-info" id="bt2" name="bt2">Reset</button>
+            <input type="hidden" name="product_master_id" value="{{product_master_id}}">
+            {% csrf_token %}
+        </form>
+    </div>
+</center>
+{% endblock %}

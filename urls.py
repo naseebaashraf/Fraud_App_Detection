@@ -53,6 +53,8 @@ urlpatterns = [
     path('company_view_app', views.company_view_app, name='company_view_app'),
     path('company_delete_app', views.company_delete_app, name='company_delete_app'),
 
+    path('company_add_app_pic', views.company_add_app_pic, name='company_add_app_pic'),
+
     path('user_login', views.user_login2, name='user_login'),
     path('user_home', views.user_home, name='user_home'),
     path('user_registration', views.user_registration, name='user_registration'),
