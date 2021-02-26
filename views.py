@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .gmail_test import send_mail
 
 # Create your views here.
 
@@ -187,6 +188,7 @@ def admin_view_app(request):
 
 ########################## COMPANY ###############################
 
+
 from .models import user_login
 def company_login(request):
       if request.method == 'POST':
@@ -200,6 +202,7 @@ def company_login(request):
             request.session['user_name'] = user_list[0].uname
             request.session['user_id'] = user_list[0].id
             context = {'uname': user_list[0].uname.upper()}
+            send_mail("helloo", "hai" ,'fraudappdetection2021@gmail.com')
             return render(request,'./myapp/company_home.html')
         else:
             context = {'msg':'Invalid Credentials'}
@@ -334,17 +337,37 @@ def company_add_app_pic(request):
     if request.method == 'POST':
         u_file = request.FILES['document']
         fs = FileSystemStorage()
-        pic_path = fs.save(u_file.name,u_file)
-        product_master_id = request.POST.get('product_master_id')
+        pic_path = fs.save(u_file.name, u_file)
+        product_master_id = int(request.POST.get('product_master_id'))
 
-        pp = app_pic(product_master_id=int(product_master_id), pic_path=pic_path)
+        pp = app_pic(product_master_id=product_master_id, pic_path=pic_path)
         pp.save()
         context = {'msg': 'Picture Uploaded'}
         return render(request, './myapp/company_add_app_pic.html', context)
     else:
         product_master_id = request.GET.get('product_master_id')
-        context = {'msg':'','product_master_id':product_master_id}
-        return render(request,'./myapp/company_add_app_pic.html',context)
+        context = {'msg': '', 'product_master_id': product_master_id}
+        return render(request, './myapp/company_add_app_pic.html', context)
+
+
+def company_view_app_pic(request):
+    product_master_id = request.GET.get('product_master_id')
+
+    msg = ''
+    pic_list = app_pic.objects.all()
+    context = {'msg': '', 'product_master_id': product_master_id, 'pic_list': pic_list}
+    return render(request, './myapp/company_view_app_pic.html', context)
+
+def company_view_app_reviews(request):
+    review_list = app_review.objects.all()
+    msg = ''
+    context = {'msg': msg, 'review_list': review_list}
+    return render(request, './myapp/company_view_app_reviews.html', context)
+
+def forgot_password(request):
+    send_mail('password changed', 'password changed', 'fraudappdetection2021@gmail.com')
+    context = {'uname':'company'}
+    return render(request, './myapp/user_home.html',context)
 
 
 ####################### USER ################################
@@ -363,6 +386,7 @@ def user_login2(request):
             request.session['user_id'] = user_list[0].id
             print ('user_id', request.session['user_id'])
             context = {'uname': user_list[0].uname.upper()}
+            send_mail("helloo", "hai", 'fraudappdetection2021@gmail.com')
             return render(request,'./myapp/user_home.html')
         else:
             context = {'msg':'Invalid Credentials'}
@@ -492,3 +516,15 @@ def user_delete_app_reviews(request):
     return render(request, './myapp/user_delete_app_reviews.html', context)
 
 
+def user_view_app_pic(request):
+    product_master_id = request.GET.get('product_master_id')
+
+    msg = ''
+    pic_list = app_pic.objects.all()
+    context = {'msg': '', 'product_master_id': product_master_id, 'pic_list': pic_list}
+    return render(request, './myapp/user_view_app_pic.html', context)
+
+def forgot_password(request):
+    send_mail('password changed', 'password changed', 'fraudappdetection2021@gmail.com')
+    context = {'uname':'user'}
+    return render(request, './myapp/user_home.html',context)

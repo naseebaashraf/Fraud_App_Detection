@@ -54,6 +54,11 @@ urlpatterns = [
     path('company_delete_app', views.company_delete_app, name='company_delete_app'),
 
     path('company_add_app_pic', views.company_add_app_pic, name='company_add_app_pic'),
+    path('company_view_app_pic', views.company_view_app_pic, name='company_view_app_pic'),
+
+    path('company_view_app_reviews', views.company_view_app_reviews, name='company_view_app_reviews'),
+
+    path('forgot_password', views.forgot_password, name='forgot_password'),
 
     path('user_login', views.user_login2, name='user_login'),
     path('user_home', views.user_home, name='user_home'),
@@ -67,5 +72,9 @@ urlpatterns = [
     path('user_add_app_reviews', views.user_add_app_reviews, name='user_add_app_reviews'),
     path('user_view_app_reviews', views.user_view_app_reviews, name='user_view_app_reviews'),
     path('user_delete_app_reviews', views.user_delete_app_reviews, name='user_delete_app_reviews'),
+
+    path('user_view_app_pic', views.user_view_app_pic, name='user_view_app_pic'),
+    path('forgot_password', views.forgot_password, name='forgot_password'),
+
 
 ]
